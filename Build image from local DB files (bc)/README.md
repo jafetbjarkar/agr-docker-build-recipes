@@ -5,12 +5,12 @@
 3. Deploy:
   `docker-compose -f docker-compose.override.yml up -d`
 4. Trigger build: Open localhost:5100. See progress in docker container (see docker client)
-  `curl 'http://localhost.5100'`
+  `curl 'http://localhost:5100'`
 5. Wait
 6. Now the prod and stg dbs should appear in the sqlserver container (port 1433)
 
 ## In a single command
-docker-compose -f docker-compose.override.yml build databases && docker-compose -f docker-compose.override.yml up -d && curl 'http://localhost.5100'
+docker-compose -f docker-compose.override.yml build databases && docker-compose -f docker-compose.override.yml up -d && curl 'http://localhost:5100'
 
 
 # API connection strings
