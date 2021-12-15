@@ -1,0 +1,18 @@
+version: "3.3"
+
+services:
+  api:
+    environment:
+      - AGRSERVICECORE_ConnectionStrings__AGRConnectionString=Data
+        Source=databases;Initial
+        Catalog=agr_prod;User=sa;Password=Strong!Password9
+      - AGRSERVICECORE_ConnectionStrings__STGConnectionString=Data
+        Source=databases;Initial
+        Catalog=agr_stg;User=sa;Password=Strong!Passward9
+    image: "agrinventory/api:develop"
+    ports:
+      - "5000:5000"
+  databases:
+    image: "agrinventory/databases-sqlserver-atvr"
+    ports:
+      - "1633:1433"

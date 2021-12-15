@@ -1,0 +1,47 @@
+version: '3.8'
+##
+services:
+  databases:
+    image: "db:local"
+    build:
+      context: .
+      args:
+        - STG_SQLPROJ_PATH=agr-databases/development/dev_inventory_stg_business_central/dev_inventory_stg_business_central.sqlproj
+    ports:
+      - "5100:5000" #localhost:5100
+    environment:
+      - SQL_SERVER=sqlserver
+      - SQL_USER=sa
+      - SQL_PASS=Strong!Password9
+      - PROD_PROJ_NAME=dev_inventory_prod
+      - PROD_DEPLOY_DB_NAME=${PROD_DB}
+      - PROD_PUBLISH_PARAMS=/v:BD_DEV_ERP_DB=${ERP_DB}
+        /v:BD_DEV_PROD_DB=${PROD_DB} /v:BD_DEV_STG_DB=${STG_DB}
+        /v:BD_DEV_PARAMETERS=dummy=1 /v:BD_DEV_DBS=bc /v:BD_DEV_MODULES=none
+        /v:BD_DEV_VERSION=6.3.0
+      - STG_SQLPROJ_PATH=agr-databases/development/dev_inventory_stg_business_central/dev_inventory_stg_business_central.sqlproj
+      - STG_PROJ_NAME=dev_inventory_stg_business_central
+      - STG_DEPLOY_DB_NAME=${STG_DB}
+      - STG_PUBLISH_PARAMS=/v:AGR_PROD_DB_NAME=${PROD_DB}
+        /v:AGR_STG_DB_NAME=${STG_DB} /v:ERP_DB_NAME=${ERP_DB}
+        /v:BD_DEV_ERP_DB=${ERP_DB} /v:BD_DEV_PROD_DB=${PROD_DB}
+        /v:BD_DEV_STG_DB=${STG_DB} /v:BD_DEV_PARAMETERS=dummy=1 /v:BD_DEV_DBS=bc
+        /v:BD_DEV_MODULES=none /v:BD_DEV_VERSION=6.3.0
+      - ERP_PROJ_NAME=erp-database
+      - ERP_DEPLOY_DB_NAME=${ERP_DB}
+      - ERP_PUBLISH_PARAMS=/v:BD_DEV_PARAMETERS=dummy=1 /v:BD_DEV_DBS=bc
+        /v:BD_DEV_MODULES=none /v:BD_DEV_VERSION=6.3.0
+      - PUBLISH_ON_START=true
+  sqlserver:
+    image: "mcr.microsoft.com/mssql/server"
+    container_name: sqlserver
+    user: root
+    environment:
+      SA_PASSWORD: Strong!Password9
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver-data:/var/opt/mssql/data
+volumes:
+  sqlserver-data: null
