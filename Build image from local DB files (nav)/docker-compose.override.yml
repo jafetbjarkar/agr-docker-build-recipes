@@ -1,6 +1,16 @@
 version: '3.8'
 ##
 services:
+  api:
+    environment:
+    - AGRSERVICECORE_ConnectionStrings__AGRConnectionString=Data Source=${SQL_SERVER};Initial Catalog=${PROD_DB};User=${SQL_USER};Password=${SQL_PASS}
+    - AGRSERVICECORE_ConnectionStrings__STGConnectionString=Data Source=${SQL_SERVER};Initial Catalog=${STG_DB};User=${SQL_USER};Password=${SQL_PASS}
+    image: "agrinventory/api:local"
+    ports:
+      - "6000:5000"
+    build: 
+      context: ../agr-services
+      dockerfile: Api/Dockerfile
   databases:
     image: "db:local"
     ports:
