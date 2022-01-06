@@ -10,6 +10,7 @@
 6. Now the prod and stg dbs should appear in the sqlserver container (port 1433)
 
 ## In a single command
+* REMEMBER: RUN FROM `/agr-databases`
 docker-compose -f docker-compose.override.yml build databases && docker-compose -f docker-compose.override.yml up -d && curl 'http://localhost:5100'
 
 
